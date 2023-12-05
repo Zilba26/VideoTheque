@@ -3662,19 +3662,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\basil\\.nuget\\packages\\": {}
+    "C:\\Users\\natha\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\.Net\\VideoTheque\\VideoTheque\\VideoTheque.csproj",
+      "projectUniqueName": "C:\\Users\\natha\\Desktop\\Projet Code\\ESEO\\PlateformeNet\\VideoTheque\\VideoTheque\\VideoTheque.csproj",
       "projectName": "VideoTheque",
-      "projectPath": "C:\\.Net\\VideoTheque\\VideoTheque\\VideoTheque.csproj",
-      "packagesPath": "C:\\Users\\basil\\.nuget\\packages\\",
-      "outputPath": "C:\\.Net\\VideoTheque\\VideoTheque\\obj\\",
+      "projectPath": "C:\\Users\\natha\\Desktop\\Projet Code\\ESEO\\PlateformeNet\\VideoTheque\\VideoTheque\\VideoTheque.csproj",
+      "packagesPath": "C:\\Users\\natha\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\natha\\Desktop\\Projet Code\\ESEO\\PlateformeNet\\VideoTheque\\VideoTheque\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\basil\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\natha\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
