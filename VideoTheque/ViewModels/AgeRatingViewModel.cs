@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using VideoTheque.DTOs;
 
 namespace VideoTheque.ViewModels
 {
     public class AgeRatingViewModel
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
         
-        [JsonProperty("nom")]
+        [JsonPropertyName("nom")]
         [Required]
         public string Name { get; set; }
         
-        [JsonProperty("abreviation")]
+        [JsonPropertyName("abreviation")]
+        [Required]
         public string Abreviation { get; set; }
 
         public AgeRatingDto ToDto()

@@ -2,9 +2,9 @@
 using VideoTheque.DTOs;
 using VideoTheque.Repositories.AgeRating;
 
-namespace VideoTheque.Businesses.Genres
+namespace VideoTheque.Businesses.AgeRatings
 {
-    public class AgeRatingBusiness
+    public class AgeRatingBusiness : IAgeRatingBusiness
     {
         
         private readonly IAgeRatingsRepository _ageRatingDao;

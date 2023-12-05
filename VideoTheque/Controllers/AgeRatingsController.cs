@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using VideoTheque.Businesses.AgeRatings;
 using VideoTheque.DTOs;
 using VideoTheque.ViewModels;
 
@@ -9,10 +10,10 @@ namespace VideoTheque.Controllers
     [Route("age-ratings")]
     public class AgeRatingsController : ControllerBase
     {
-        private readonly IAgeRatingsBusiness _ageRatingsBusiness;
+        private readonly IAgeRatingBusiness _ageRatingsBusiness;
         protected readonly ILogger<AgeRatingsController> _logger;
         
-        public AgeRatingsController(ILogger<AgeRatingsController> logger, IAgeRatingsBusiness ageRatingsBusiness)
+        public AgeRatingsController(ILogger<AgeRatingsController> logger, IAgeRatingBusiness ageRatingsBusiness)
         {
             _logger = logger;
             _ageRatingsBusiness = ageRatingsBusiness;
