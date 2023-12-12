@@ -118,6 +118,11 @@ namespace VideoTheque.Businesses.Films
             {
                 throw new NotFoundException($"Film '{id}' non trouvé");
             }
+
+            if (!bluRay.IsAvailable)
+            {
+                throw new InternalErrorException($"Le film '{id}' n'est pas disponible");
+            }
             PersonneDto? director = _personneDao.GetPersonne(film.Director.LastName, film.Director.FirstName).Result;
             PersonneDto? scenarist = _personneDao.GetPersonne(film.Scenarist.LastName, film.Scenarist.FirstName).Result;
             PersonneDto? firstActor = _personneDao.GetPersonne(film.FirstActor.LastName, film.FirstActor.FirstName).Result;
@@ -158,6 +163,15 @@ namespace VideoTheque.Businesses.Films
 
         public void DeleteFilm(int id)
         {
+            BluRayDto bluRay = _bluRayDao.GetBluRay(id).Result;
+            if (bluRay == null)
+            {
+                throw new NotFoundException($"Film '{id}' non trouvé");
+            }
+            if (!bluRay.IsAvailable)
+            {
+                throw new InternalErrorException($"Le film '{id}' n'est pas disponible");
+            }
             if (_bluRayDao.DeleteBluRay(id).IsFaulted)
             {
                 throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {id}");
