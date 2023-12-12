@@ -26,6 +26,8 @@ namespace VideoTheque.Controllers
         [HttpPost]
         public async Task<IResult> InsertPersonne([FromBody] PersonneViewModel personneVM)
         {
+            Console.WriteLine("insert");
+            Console.WriteLine(personneVM);
             var created = _personnesBusiness.InsertPersonne(personneVM.Adapt<PersonneDto>());
             return Results.Created($"/personnes/{created.Id}", created);
         }

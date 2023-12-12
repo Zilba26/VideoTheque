@@ -4,7 +4,7 @@ using VideoTheque.Repositories.Personnes;
 
 namespace VideoTheque.Businesses.Personnes
 {
-    public class PersonnesBusiness
+    public class PersonnesBusiness : IPersonnesBusiness
     {
         private readonly IPersonnesRepository _personnesDao;
         
