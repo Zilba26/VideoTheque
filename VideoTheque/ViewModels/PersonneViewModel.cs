@@ -22,35 +22,5 @@ namespace VideoTheque.ViewModels
         
         [JsonPropertyName("nom-prenom")]
         public string FullName => $"{LastName} {FirstName}";
-        
-
-
-        public PersonneDto ToDto()
-        {
-            Console.WriteLine("ToDto");
-            Console.WriteLine(this.FirstName);
-            return new PersonneDto
-            {
-                Id = this.Id,
-                LastName = this.LastName,
-                FirstName = this.FirstName,
-                Nationality = this.Nationality,
-                BirthDay = this.Birthday,
-            };
-        }
-
-        public static PersonneViewModel ToModel(PersonneDto dto)
-        {
-            Console.WriteLine("ToModel");
-            Console.WriteLine(dto.FirstName);
-            return new PersonneViewModel
-            {
-                Id = dto.Id,
-                LastName = dto.LastName,
-                FirstName = dto.FirstName,
-                Birthday = dto.BirthDay,
-                Nationality = dto.Nationality
-            };
-        }
     }
 }

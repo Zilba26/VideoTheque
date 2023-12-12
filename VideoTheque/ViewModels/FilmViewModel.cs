@@ -34,17 +34,6 @@ namespace VideoTheque.ViewModels
         
         public FilmDto ToDto()
         {
-            Console.WriteLine("this");
-            Console.WriteLine(Id);
-            Console.WriteLine(Title);
-            Console.WriteLine(Duration);
-            Console.WriteLine(DirectorName);
-            Console.WriteLine(ScenaristName);
-            Console.WriteLine(Support);
-            Console.WriteLine(Genre);
-            Console.WriteLine(FirstActorName);
-            Console.WriteLine(AgeRating);
-            
             return new FilmDto
             {
                 Id = Id,
