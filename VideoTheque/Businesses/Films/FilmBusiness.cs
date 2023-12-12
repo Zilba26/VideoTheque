@@ -68,15 +68,40 @@ namespace VideoTheque.Businesses.Films
         
         private void InsertBlueRay(FilmDto film)
         {
+            PersonneDto? director = _personneDao.GetPersonne(film.Director.LastName, film.Director.FirstName).Result;
+            PersonneDto? scenarist = _personneDao.GetPersonne(film.Scenarist.LastName, film.Scenarist.FirstName).Result;
+            PersonneDto? firstActor = _personneDao.GetPersonne(film.FirstActor.LastName, film.FirstActor.FirstName).Result;
+            AgeRatingDto? ageRating = _ageRatingDao.GetAgeRating(film.AgeRating.Name).Result;
+            GenreDto? genre = _genreDao.GetGenre(film.Genre.Name).Result;
+            if (director == null)
+            {
+                throw new NotFoundException($"Réalisateur '{film.Director.LastName} {film.Director.FirstName}' non trouvé");
+            }
+            if (scenarist == null)
+            {
+                throw new NotFoundException($"Scénariste '{film.Scenarist.LastName} {film.Scenarist.FirstName}' non trouvé");
+            }
+            if (firstActor == null)
+            {
+                throw new NotFoundException($"Acteur '{film.FirstActor.LastName} {film.FirstActor.FirstName}' non trouvé");
+            }
+            if (ageRating == null)
+            {
+                throw new NotFoundException($"Classification '{film.AgeRating.Name}' non trouvée");
+            }
+            if (genre == null)
+            {
+                throw new NotFoundException($"Genre '{film.Genre.Name}' non trouvé");
+            }
             BluRayDto blueRay = new BluRayDto
             {
                 Title = film.Title,
                 Duration = film.Duration,
-                IdDirector = film.Director.Id,
-                IdScenarist = film.Scenarist.Id,
-                IdFirstActor = film.FirstActor.Id,
-                IdAgeRating = film.AgeRating.Id,
-                IdGenre = film.Genre.Id,
+                IdDirector = director.Id,
+                IdScenarist = scenarist.Id,
+                IdFirstActor = firstActor.Id,
+                IdAgeRating = ageRating.Id,
+                IdGenre = genre.Id,
                 IsAvailable = true,
                 IdOwner = null
             };
@@ -93,13 +118,38 @@ namespace VideoTheque.Businesses.Films
             {
                 throw new NotFoundException($"Film '{id}' non trouvé");
             }
+            PersonneDto? director = _personneDao.GetPersonne(film.Director.LastName, film.Director.FirstName).Result;
+            PersonneDto? scenarist = _personneDao.GetPersonne(film.Scenarist.LastName, film.Scenarist.FirstName).Result;
+            PersonneDto? firstActor = _personneDao.GetPersonne(film.FirstActor.LastName, film.FirstActor.FirstName).Result;
+            AgeRatingDto? ageRating = _ageRatingDao.GetAgeRating(film.AgeRating.Name).Result;
+            GenreDto? genre = _genreDao.GetGenre(film.Genre.Name).Result;
+            if (director == null)
+            {
+                throw new NotFoundException($"Réalisateur '{film.Director.LastName} {film.Director.FirstName}' non trouvé");
+            }
+            if (scenarist == null)
+            {
+                throw new NotFoundException($"Scénariste '{film.Scenarist.LastName} {film.Scenarist.FirstName}' non trouvé");
+            }
+            if (firstActor == null)
+            {
+                throw new NotFoundException($"Acteur '{film.FirstActor.LastName} {film.FirstActor.FirstName}' non trouvé");
+            }
+            if (ageRating == null)
+            {
+                throw new NotFoundException($"Classification '{film.AgeRating.Name}' non trouvée");
+            }
+            if (genre == null)
+            {
+                throw new NotFoundException($"Genre '{film.Genre.Name}' non trouvé");
+            }
             bluRay.Title = film.Title;
             bluRay.Duration = film.Duration;
-            bluRay.IdDirector = film.Director.Id;
-            bluRay.IdScenarist = film.Scenarist.Id;
-            bluRay.IdFirstActor = film.FirstActor.Id;
-            bluRay.IdAgeRating = film.AgeRating.Id;
-            bluRay.IdGenre = film.Genre.Id;
+            bluRay.IdDirector = director.Id;
+            bluRay.IdScenarist = scenarist.Id;
+            bluRay.IdFirstActor = firstActor.Id;
+            bluRay.IdAgeRating = ageRating.Id;
+            bluRay.IdGenre = genre.Id;
             if (_bluRayDao.UpdateBluRay(id, bluRay).IsFaulted)
             {
                 throw new InternalErrorException($"Erreur lors de la modification du film {film.Title}");

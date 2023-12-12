@@ -6,31 +6,92 @@ namespace VideoTheque.ViewModels
     public class FilmViewModel
     {
         [JsonPropertyName("id")]
-        private int Id { get; set; }
+        public int Id { get; set; }
         
         [JsonPropertyName("titre")]
-        private string Title { get; set; }
+        public string Title { get; set; }
         
         [JsonPropertyName("duree")]
-        private long Duration { get; set; }
+        public long Duration { get; set; }
         
         [JsonPropertyName("realisateur")]
-        private string DirectorName { get; set; }
+        public string DirectorName { get; set; }
         
         [JsonPropertyName("scenariste")]
-        private string ScenaristName { get; set; }
+        public string ScenaristName { get; set; }
         
         [JsonPropertyName("support")]
-        private string Support { get; set; }
+        public string Support { get; set; }
         
         [JsonPropertyName("genre")]
-        private string Genre { get; set; }
+        public string Genre { get; set; }
         
         [JsonPropertyName("acteur-principal")]
-        private string FirstActorName { get; set; }
+        public string FirstActorName { get; set; }
         
         [JsonPropertyName("age-rating")]
-        private string AgeRating { get; set; }
+        public string AgeRating { get; set; }
+        
+        public FilmDto ToDto()
+        {
+            Console.WriteLine("this");
+            Console.WriteLine(Id);
+            Console.WriteLine(Title);
+            Console.WriteLine(Duration);
+            Console.WriteLine(DirectorName);
+            Console.WriteLine(ScenaristName);
+            Console.WriteLine(Support);
+            Console.WriteLine(Genre);
+            Console.WriteLine(FirstActorName);
+            Console.WriteLine(AgeRating);
+            
+            return new FilmDto
+            {
+                Id = Id,
+                Title = Title,
+                Duration = Duration,
+                Director = new PersonneDto
+                {
+                    LastName = DirectorName.Split(" ")[0],
+                    FirstName = DirectorName.Split(" ")[1]
+                },
+                Scenarist = new PersonneDto
+                {
+                    LastName = ScenaristName.Split(" ")[0],
+                    FirstName = ScenaristName.Split(" ")[1]
+                },
+                Support = ViewModels.Support.BluRay,
+                Genre = new GenreDto
+                {
+                    Name = Genre
+                },
+                FirstActor = new PersonneDto
+                {
+                    LastName = FirstActorName.Split(" ")[0],
+                    FirstName = FirstActorName.Split(" ")[1]
+                },
+                AgeRating = new AgeRatingDto
+                {
+                    Name = AgeRating
+                }
+            };
+        }
+        
+        public static FilmViewModel ToModel(FilmDto dto)
+        {
+            return new FilmViewModel
+            {
+                Id = dto.Id,
+                Title = dto.Title,
+                Duration = dto.Duration,
+                DirectorName = dto.Director.LastName + " " + dto.Director.FirstName,
+                ScenaristName = dto.Scenarist.LastName + " " + dto.Scenarist.FirstName,
+                Support = dto.Support.ToString(),
+                Genre = dto.Genre.Name,
+                FirstActorName = dto.FirstActor.LastName + " " + dto.FirstActor.FirstName,
+                AgeRating = dto.AgeRating.Name
+            };
+        }
         
     }
 }
