@@ -143,9 +143,15 @@ namespace VideoTheque.Businesses.Emprunts
             return empruntViewModel;
         }
 
-        public void DeleteEmprunt(string filmName)
+        public async void DeleteEmprunt(string filmName)
         {
-            
+            BluRayDto? bluRayDto = _bluRayDao.GetBluRayByName(filmName).Result;
+            if (bluRayDto == null)
+            {
+                throw new Exception("Film not found");
+            }
+            await _bluRayDao.DeleteBluRay(bluRayDto.Id);
+            await _httpClient.DeleteAsync(bluRayDto.IdOwner + "/emprunts/" + bluRayDto.Id);
         }
 
         public List<EmpruntableFilmViewModel> GetEmpruntableFilms()
