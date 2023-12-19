@@ -15,7 +15,7 @@ namespace VideoTheque.Businesses.Emprunts
         void DeleteEmprunt(string filmName);
         
         //Récupère nos films empruntables
-        EmpruntableFilmViewModel GetEmpruntableFilms();
+        List<EmpruntableFilmViewModel> GetEmpruntableFilms();
         
         //Recupère les films empruntables de l'hôte
         EmpruntableFilmViewModel GetEmpruntableFilms(int idHost);
