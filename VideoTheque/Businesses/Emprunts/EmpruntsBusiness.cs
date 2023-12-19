@@ -11,27 +11,27 @@ namespace VideoTheque.Businesses.Emprunts
 {
     public class EmpruntsBusiness : IEmpruntsBusiness
     {
-        HttpClient _httpClient = new HttpClient();
-        IHostsRepository _hostsRepository;
-        IPersonnesRepository _personnesRepository;
-        IAgeRatingsRepository _ageRatingsRepository;
-        IGenresRepository _genresRepository;
-        IBluRayRepository _bluRayRepository;
+        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly IHostsRepository _hostsDao;
+        private readonly IPersonnesRepository _personnesDao;
+        private readonly IAgeRatingsRepository _ageRatingsDao;
+        private readonly IGenresRepository _genresDao;
+        private readonly IBluRayRepository _bluRayDao;
         
         public EmpruntsBusiness(IHostsRepository hostsRepository, IPersonnesRepository personnesRepository,
             IAgeRatingsRepository ageRatingsRepository, IGenresRepository genresRepository, 
             IBluRayRepository bluRayRepository)
         {
-            _hostsRepository = hostsRepository;
-            _personnesRepository = personnesRepository;
-            _ageRatingsRepository = ageRatingsRepository;
-            _genresRepository = genresRepository;
-            _bluRayRepository = bluRayRepository;
+            _hostsDao = hostsRepository;
+            _personnesDao = personnesRepository;
+            _ageRatingsDao = ageRatingsRepository;
+            _genresDao = genresRepository;
+            _bluRayDao = bluRayRepository;
         }
 
         public async void EmpruntFilm(int idHost, int idFilm)
         {
-            HostDto? host = await _hostsRepository.GetHost(idHost);
+            HostDto? host = await _hostsDao.GetHost(idHost);
             if (host == null)
             {
                 throw new Exception("Host not found");
@@ -61,7 +61,7 @@ namespace VideoTheque.Businesses.Emprunts
                     Title = emprunt.Title,
                     IdOwner = idHost
                 };
-                await _bluRayRepository.InsertBluRay(bluRayDto);
+                await _bluRayDao.InsertBluRay(bluRayDto);
             }
             else
             {
@@ -71,10 +71,10 @@ namespace VideoTheque.Businesses.Emprunts
         
         private async void VerifyAndInsertPersonneExist(PersonneViewModel personne)
         {
-            PersonneDto? personneDto = await _personnesRepository.GetPersonne(personne.LastName, personne.FirstName);
+            PersonneDto? personneDto = await _personnesDao.GetPersonne(personne.LastName, personne.FirstName);
             if (personneDto == null)
             {
-                await _personnesRepository.InsertPersonne(personne.ToDto());
+                await _personnesDao.InsertPersonne(personne.ToDto());
             }
             else
             {
@@ -84,10 +84,10 @@ namespace VideoTheque.Businesses.Emprunts
         
         private async void VerifyAndInsertAgeRatingExist(AgeRatingViewModel ageRating)
         {
-            AgeRatingDto? ageRatingDto = await _ageRatingsRepository.GetAgeRating(ageRating.Name);
+            AgeRatingDto? ageRatingDto = await _ageRatingsDao.GetAgeRating(ageRating.Name);
             if (ageRatingDto == null)
             {
-                await _ageRatingsRepository.InsertAgeRating(ageRating.ToDto());
+                await _ageRatingsDao.InsertAgeRating(ageRating.ToDto());
             }
             else
             {
@@ -97,10 +97,10 @@ namespace VideoTheque.Businesses.Emprunts
         
         private async void VerifyAndInsertGenreExist(GenreViewModel genre)
         {
-            GenreDto? genreDto = await _genresRepository.GetGenre(genre.Name);
+            GenreDto? genreDto = await _genresDao.GetGenre(genre.Name);
             if (genreDto == null)
             {
-                await _genresRepository.InsertGenre(genre.ToDto());
+                await _genresDao.InsertGenre(genre.ToDto());
             }
             else
             {
@@ -118,14 +118,24 @@ namespace VideoTheque.Businesses.Emprunts
             
         }
 
-        public EmpruntableFilmViewModel GetEmpruntableFilms()
+        public List<EmpruntableFilmViewModel> GetEmpruntableFilms()
         {
-            return new EmpruntableFilmViewModel();
+            Task<List<BluRayDto>> filmsDto = _bluRayDao.GetBluRays();
+            List<EmpruntableFilmViewModel> empruntableFilmViewModels = new List<EmpruntableFilmViewModel>();
+            foreach (var film in filmsDto.Result)
+            {
+                if (film.IdOwner == null)
+                {
+                    empruntableFilmViewModels.Add(new EmpruntableFilmViewModel(film.Id, film.Title));
+                }
+            }
+
+            return empruntableFilmViewModels;
         }
 
         public EmpruntableFilmViewModel GetEmpruntableFilms(int idHost)
         {
-            return new EmpruntableFilmViewModel();
+            return null;
         }
     }
 }
