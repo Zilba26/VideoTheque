@@ -18,6 +18,6 @@ namespace VideoTheque.Businesses.Emprunts
         List<EmpruntableFilmViewModel> GetEmpruntableFilms();
         
         //Recupère les films empruntables de l'hôte
-        EmpruntableFilmViewModel GetEmpruntableFilms(int idHost);
+        Task<List<EmpruntableFilmViewModel>> GetEmpruntableFilms(int idHost);
     }
 }

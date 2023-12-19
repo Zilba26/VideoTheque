@@ -133,9 +133,30 @@ namespace VideoTheque.Businesses.Emprunts
             return empruntableFilmViewModels;
         }
 
-        public EmpruntableFilmViewModel GetEmpruntableFilms(int idHost)
+        public async Task<List<EmpruntableFilmViewModel>> GetEmpruntableFilms(int idHost)
         {
-            return null;
+            HostDto? host = await _hostsDao.GetHost(idHost);
+            if (host == null)
+            {
+                throw new Exception("Host not found");
+            }
+            HttpResponseMessage response = await _httpClient.GetAsync(host.Name + "/films/empruntable/");
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                List<EmpruntableFilmViewModel>? empruntableFilm = JsonConvert.DeserializeObject<List<EmpruntableFilmViewModel>>(content);
+                if (empruntableFilm == null)
+                {
+                    throw new Exception("Error while getting empruntable films");
+                }
+                else
+                {
+                    return empruntableFilm;
+                }
+            }else
+            {
+                throw new Exception("Error while getting empruntable films");
+            }
         }
     }
 }
