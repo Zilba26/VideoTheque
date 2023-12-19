@@ -16,5 +16,15 @@ namespace VideoTheque.ViewModels
         [JsonPropertyName("abreviation")]
         [Required]
         public string Abreviation { get; set; }
+        
+        public AgeRatingDto ToDto()
+        {
+            return new AgeRatingDto()
+            {
+                Id = Id,
+                Name = Name,
+                Abreviation = Abreviation
+            };
+        }
     }
 }

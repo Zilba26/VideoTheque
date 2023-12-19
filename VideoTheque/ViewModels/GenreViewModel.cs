@@ -12,5 +12,14 @@ namespace VideoTheque.ViewModels
         [JsonPropertyName("nom")]
         [Required]
         public string Name { get; set; }
+        
+        public GenreDto ToDto()
+        {
+            return new GenreDto()
+            {
+                Id = Id,
+                Name = Name
+            };
+        }
     }
 }

@@ -22,5 +22,17 @@ namespace VideoTheque.ViewModels
         
         [JsonPropertyName("nom-prenom")]
         public string FullName => $"{LastName} {FirstName}";
+
+        public PersonneDto ToDto()
+        {
+            return new PersonneDto
+            {
+                Id = Id,
+                BirthDay = Birthday,
+                FirstName = FirstName,
+                LastName = LastName,
+                Nationality = Nationality
+            };
+        }
     }
 }
