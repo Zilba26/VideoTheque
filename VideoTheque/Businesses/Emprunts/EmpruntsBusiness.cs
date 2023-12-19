@@ -107,13 +107,21 @@ namespace VideoTheque.Businesses.Emprunts
                 genre.Id = genreDto.Id;
             }
         }
-
-        public EmpruntViewModel EmpruntFilm(int idFilm)
+        
+        public async Task<EmpruntViewModel> EmpruntFilm(int idFilm)
         {
             BluRayDto? bluRayDto = _bluRayDao.GetBluRay(idFilm).Result;
             if (bluRayDto == null)
             {
                 throw new Exception("Film not found");
+            }
+            if (bluRayDto.IdOwner != null)
+            {
+                throw new Exception("The film is not mine");
+            }
+            if (!bluRayDto.IsAvailable)
+            {
+                throw new Exception("The film is not available");
             }
             PersonneDto? firstActor = _personnesDao.GetPersonne(bluRayDto.IdFirstActor).Result;
             PersonneDto? director = _personnesDao.GetPersonne(bluRayDto.IdDirector).Result;
@@ -131,6 +139,7 @@ namespace VideoTheque.Businesses.Emprunts
                 AgeRating = AgeRatingViewModel.FromDto(ageRating),
                 Genre = GenreViewModel.FromDto(genre)
             };
+            await _bluRayDao.SetAvailable(idFilm, false);
             return empruntViewModel;
         }
 

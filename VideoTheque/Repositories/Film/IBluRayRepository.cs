@@ -14,5 +14,7 @@ namespace VideoTheque.Repositories.Film
         
         Task DeleteBluRay(int id);
         
+        Task SetAvailable(int id, bool available);
+        
     }
 }

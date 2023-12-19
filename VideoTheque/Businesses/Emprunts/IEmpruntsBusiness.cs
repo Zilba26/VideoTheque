@@ -9,7 +9,7 @@ namespace VideoTheque.Businesses.Emprunts
         void EmpruntFilm(int idHost, int idFilm);
         
         //Passes un film en emprunté et retourne la copie du film
-        EmpruntViewModel EmpruntFilm(int idFilm);
+        Task<EmpruntViewModel> EmpruntFilm(int idFilm);
 
         //Supprime un emprunt
         void DeleteEmprunt(string filmName);
