@@ -53,6 +53,10 @@ namespace VideoTheque.Controllers
             _empruntsBusiness.DeleteEmprunt(name);
             return Results.Ok();
         }
+        
+        [HttpGet("empruntables")]
+        public async Task GetEmpruntableFilms()
+            => _empruntsBusiness.GetEmpruntableFilms();
 
     }
 }
