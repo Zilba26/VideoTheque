@@ -34,5 +34,21 @@ namespace VideoTheque.ViewModels
                 Nationality = Nationality
             };
         }
+
+        public static PersonneViewModel FromDto(PersonneDto? personneDto)
+        {
+            if (personneDto == null)
+            {
+                throw new Exception("PersonneDto is null");
+            }
+            return new PersonneViewModel
+            {
+                Id = personneDto.Id,
+                Birthday = personneDto.BirthDay,
+                FirstName = personneDto.FirstName,
+                LastName = personneDto.LastName,
+                Nationality = personneDto.Nationality
+            };
+        }
     }
 }

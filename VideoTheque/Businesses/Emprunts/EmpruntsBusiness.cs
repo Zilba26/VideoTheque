@@ -110,7 +110,28 @@ namespace VideoTheque.Businesses.Emprunts
 
         public EmpruntViewModel EmpruntFilm(int idFilm)
         {
-            return new EmpruntViewModel();
+            BluRayDto? bluRayDto = _bluRayDao.GetBluRay(idFilm).Result;
+            if (bluRayDto == null)
+            {
+                throw new Exception("Film not found");
+            }
+            PersonneDto? firstActor = _personnesDao.GetPersonne(bluRayDto.IdFirstActor).Result;
+            PersonneDto? director = _personnesDao.GetPersonne(bluRayDto.IdDirector).Result;
+            PersonneDto? scenarist = _personnesDao.GetPersonne(bluRayDto.IdScenarist).Result;
+            AgeRatingDto? ageRating = _ageRatingsDao.GetAgeRating(bluRayDto.IdAgeRating).Result;
+            GenreDto? genre = _genresDao.GetGenre(bluRayDto.IdGenre).Result;
+            EmpruntViewModel empruntViewModel = new EmpruntViewModel
+            {
+                Title = bluRayDto.Title,
+                Duration = bluRayDto.Duration,
+                Support = Support.BluRay.ToString(),
+                FirstActor = PersonneViewModel.FromDto(firstActor),
+                Director = PersonneViewModel.FromDto(director),
+                Scenarist = PersonneViewModel.FromDto(scenarist),
+                AgeRating = AgeRatingViewModel.FromDto(ageRating),
+                Genre = GenreViewModel.FromDto(genre)
+            };
+            return empruntViewModel;
         }
 
         public void DeleteEmprunt(string filmName)

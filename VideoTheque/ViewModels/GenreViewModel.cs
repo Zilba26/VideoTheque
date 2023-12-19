@@ -21,5 +21,18 @@ namespace VideoTheque.ViewModels
                 Name = Name
             };
         }
+        
+        public static GenreViewModel FromDto(GenreDto? genreDto)
+        {
+            if (genreDto == null)
+            {
+                throw new Exception("Genre not found");
+            }
+            return new GenreViewModel()
+            {
+                Id = genreDto.Id,
+                Name = genreDto.Name
+            };
+        }
     }
 }
