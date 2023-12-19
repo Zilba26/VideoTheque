@@ -2,7 +2,6 @@
 {
     public class EmpruntViewModel
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public long Duration { get; set; }
         public AgeRatingViewModel AgeRating { get; set; }

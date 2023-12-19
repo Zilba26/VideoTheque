@@ -107,15 +107,51 @@ namespace VideoTheque.Businesses.Emprunts
                 genre.Id = genreDto.Id;
             }
         }
-
-        public EmpruntViewModel EmpruntFilm(int idFilm)
+        
+        public async Task<EmpruntViewModel> EmpruntFilm(int idFilm)
         {
-            return new EmpruntViewModel();
+            BluRayDto? bluRayDto = _bluRayDao.GetBluRay(idFilm).Result;
+            if (bluRayDto == null)
+            {
+                throw new Exception("Film not found");
+            }
+            if (bluRayDto.IdOwner != null)
+            {
+                throw new Exception("The film is not mine");
+            }
+            if (!bluRayDto.IsAvailable)
+            {
+                throw new Exception("The film is not available");
+            }
+            PersonneDto? firstActor = _personnesDao.GetPersonne(bluRayDto.IdFirstActor).Result;
+            PersonneDto? director = _personnesDao.GetPersonne(bluRayDto.IdDirector).Result;
+            PersonneDto? scenarist = _personnesDao.GetPersonne(bluRayDto.IdScenarist).Result;
+            AgeRatingDto? ageRating = _ageRatingsDao.GetAgeRating(bluRayDto.IdAgeRating).Result;
+            GenreDto? genre = _genresDao.GetGenre(bluRayDto.IdGenre).Result;
+            EmpruntViewModel empruntViewModel = new EmpruntViewModel
+            {
+                Title = bluRayDto.Title,
+                Duration = bluRayDto.Duration,
+                Support = Support.BluRay.ToString(),
+                FirstActor = PersonneViewModel.FromDto(firstActor),
+                Director = PersonneViewModel.FromDto(director),
+                Scenarist = PersonneViewModel.FromDto(scenarist),
+                AgeRating = AgeRatingViewModel.FromDto(ageRating),
+                Genre = GenreViewModel.FromDto(genre)
+            };
+            await _bluRayDao.SetAvailable(idFilm, false);
+            return empruntViewModel;
         }
 
-        public void DeleteEmprunt(string filmName)
+        public async void DeleteEmprunt(string filmName)
         {
-            
+            BluRayDto? bluRayDto = _bluRayDao.GetBluRayByName(filmName).Result;
+            if (bluRayDto == null)
+            {
+                throw new Exception("Film not found");
+            }
+            await _bluRayDao.DeleteBluRay(bluRayDto.Id);
+            await _httpClient.DeleteAsync(bluRayDto.IdOwner + "/emprunts/" + bluRayDto.Id);
         }
 
         public List<EmpruntableFilmViewModel> GetEmpruntableFilms()

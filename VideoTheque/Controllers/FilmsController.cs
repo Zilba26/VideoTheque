@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VideoTheque.Businesses.Emprunts;
 using VideoTheque.Businesses.Films;
 using VideoTheque.ViewModels;
 
@@ -9,10 +10,12 @@ namespace VideoTheque.Controllers
     public class FilmsController
     {
         private readonly IFilmsBusiness _filmsBusiness;
+        private readonly IEmpruntsBusiness _empruntsBusiness;
 
-        public FilmsController(IFilmsBusiness filmsBusiness)
+        public FilmsController(IFilmsBusiness filmsBusiness, IEmpruntsBusiness empruntsBusiness)
         {
             _filmsBusiness = filmsBusiness;
+            _empruntsBusiness = empruntsBusiness;
         }
 
         [HttpGet]
@@ -37,6 +40,17 @@ namespace VideoTheque.Controllers
         public async Task<IResult> DeleteGenre([FromRoute] int id)
         {
             _filmsBusiness.DeleteFilm(id);
+            return Results.Ok();
+        }
+
+        [HttpPost("empruntables/{id}")]
+        public async Task<EmpruntViewModel> InsertEmpruntableFilm([FromRoute] int id)
+            => _empruntsBusiness.EmpruntFilm(id).Result;
+        
+        [HttpDelete("empruntables/{name}")]
+        public async Task<IResult> DeleteEmpruntableFilm([FromRoute] string name)
+        {
+            _empruntsBusiness.DeleteEmprunt(name);
             return Results.Ok();
         }
 

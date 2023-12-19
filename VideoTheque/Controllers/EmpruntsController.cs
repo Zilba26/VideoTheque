@@ -15,5 +15,9 @@ namespace VideoTheque.Controllers
         {
             _empruntsBusiness = empruntsBusiness;
         }
+        
+        [HttpPost("{idHost}/{idFilm}")]
+        public async Task InsertEmprunt([FromRoute] int idHost, [FromRoute] int idFilm)
+            => _empruntsBusiness.EmpruntFilm(idHost, idFilm);
     }
 }

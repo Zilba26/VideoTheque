@@ -26,5 +26,19 @@ namespace VideoTheque.ViewModels
                 Abreviation = Abreviation
             };
         }
+        
+        public static AgeRatingViewModel FromDto(AgeRatingDto? ageRatingDto)
+        {
+            if (ageRatingDto == null)
+            {
+                throw new Exception("Age rating not found");
+            }
+            return new AgeRatingViewModel()
+            {
+                Id = ageRatingDto.Id,
+                Name = ageRatingDto.Name,
+                Abreviation = ageRatingDto.Abreviation
+            };
+        }   
     }
 }
