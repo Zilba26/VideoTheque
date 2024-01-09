@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using VideoTheque.Core;
 using VideoTheque.DTOs;
 
 namespace VideoTheque.ViewModels
@@ -17,7 +18,6 @@ namespace VideoTheque.ViewModels
         {
             return new GenreDto()
             {
-                Id = Id,
                 Name = Name
             };
         }
@@ -26,7 +26,7 @@ namespace VideoTheque.ViewModels
         {
             if (genreDto == null)
             {
-                throw new Exception("Genre not found");
+                throw new NotFoundException("Genre not found");
             }
             return new GenreViewModel()
             {

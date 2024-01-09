@@ -15,14 +15,20 @@ namespace VideoTheque.Controllers
         {
             _empruntsBusiness = empruntsBusiness;
         }
-        
+
         [HttpPost("{idHost}/{idFilm}")]
         public async Task InsertEmprunt([FromRoute] int idHost, [FromRoute] int idFilm)
-            => _empruntsBusiness.EmpruntFilm(idHost, idFilm);
-        
+        {
+            Console.WriteLine("Insert emprunt");
+            await _empruntsBusiness.EmpruntFilm(idHost, idFilm);
+        }
+
         [HttpGet("{idHost}")]
-        public async Task GetHostEmpruntableFilms([FromRoute] int idHost)
-            => _empruntsBusiness.GetEmpruntableFilms();
+        public async Task<List<EmpruntableFilmViewModel>> GetHostEmpruntableFilms([FromRoute] int idHost)
+        {
+            Console.WriteLine("Get host empruntable");
+            return _empruntsBusiness.GetEmpruntableFilms(idHost).Result;
+        }
         
     }
 }

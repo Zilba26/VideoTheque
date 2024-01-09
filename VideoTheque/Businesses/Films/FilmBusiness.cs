@@ -3,6 +3,7 @@ using VideoTheque.DTOs;
 using VideoTheque.Repositories.AgeRating;
 using VideoTheque.Repositories.Film;
 using VideoTheque.Repositories.Genres;
+using VideoTheque.Repositories.Hosts;
 using VideoTheque.Repositories.Personnes;
 using VideoTheque.ViewModels;
 
@@ -10,18 +11,22 @@ namespace VideoTheque.Businesses.Films
 {
     public class FilmBusiness : IFilmsBusiness
     {
+        private readonly HttpClient _httpClient = new HttpClient();
+
         private readonly IBluRayRepository _bluRayDao;
         private readonly IPersonnesRepository _personneDao;
         private readonly IAgeRatingsRepository _ageRatingDao;
         private readonly IGenresRepository _genreDao;
+        private readonly IHostsRepository _hostsDao;
         
         public FilmBusiness(IBluRayRepository blueRayDao, IPersonnesRepository personneDao,
-            IAgeRatingsRepository ageRatingDao, IGenresRepository genreDao)
+            IAgeRatingsRepository ageRatingDao, IGenresRepository genreDao, IHostsRepository hostsDao)
         {
             _bluRayDao = blueRayDao;
             _personneDao = personneDao;
             _ageRatingDao = ageRatingDao;
             _genreDao = genreDao;
+            _hostsDao = hostsDao;
         }
         
         public List<FilmDto> GetFilms()
@@ -161,16 +166,36 @@ namespace VideoTheque.Businesses.Films
             }
         }
 
-        public void DeleteFilm(int id)
+        public async Task DeleteFilm(int id)
         {
             BluRayDto bluRay = _bluRayDao.GetBluRay(id).Result;
             if (bluRay == null)
             {
                 throw new NotFoundException($"Film '{id}' non trouvé");
             }
+            //Gère le cas d'un film emprunté
+            if (bluRay.IdOwner != null)
+            {
+                if (_bluRayDao.DeleteBluRay(id).IsFaulted)
+                {
+                    throw new InternalErrorException($"Erreur lors de la suppression du film d'identifiant {id}");
+                }
+                HostDto host = _hostsDao.GetHost(bluRay.IdOwner.Value).Result;
+                if (host == null)
+                {
+                    throw new NotFoundException($"Hôte '{bluRay.IdOwner}' non trouvé");
+                }
+                HttpResponseMessage response = await _httpClient.DeleteAsync(host.Url + "/films/empruntables/" + bluRay.Title);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new InternalErrorException($"Erreur lors de la suppression du film {bluRay.Title} sur l'hôte {host.Url}");
+                }
+
+                return;
+            }
             if (!bluRay.IsAvailable)
             {
-                throw new InternalErrorException($"Le film '{id}' n'est pas disponible");
+                throw new InternalErrorException($"Le film '{id}' est utilisé par un autre utilisateur");
             }
             if (_bluRayDao.DeleteBluRay(id).IsFaulted)
             {
@@ -198,6 +223,7 @@ namespace VideoTheque.Businesses.Films
                 FirstActor = firstActor,
                 AgeRating = ageRating
             };
+            Console.WriteLine("parse blueray " + blueRay.Id + " to film " + film.Id);
             return film;
         }
     }

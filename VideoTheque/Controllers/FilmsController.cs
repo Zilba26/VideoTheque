@@ -37,9 +37,9 @@ namespace VideoTheque.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IResult> DeleteGenre([FromRoute] int id)
+        public async Task<IResult> DeleteFilm([FromRoute] int id)
         {
-            _filmsBusiness.DeleteFilm(id);
+            await _filmsBusiness.DeleteFilm(id);
             return Results.Ok();
         }
 
@@ -50,12 +50,12 @@ namespace VideoTheque.Controllers
         [HttpDelete("empruntables/{name}")]
         public async Task<IResult> DeleteEmpruntableFilm([FromRoute] string name)
         {
-            _empruntsBusiness.DeleteEmprunt(name);
+            await _empruntsBusiness.DeleteEmprunt(name);
             return Results.Ok();
         }
         
         [HttpGet("empruntables")]
-        public async Task GetEmpruntableFilms()
+        public async Task<List<EmpruntableFilmViewModel>> GetEmpruntableFilms() 
             => _empruntsBusiness.GetEmpruntableFilms();
 
     }

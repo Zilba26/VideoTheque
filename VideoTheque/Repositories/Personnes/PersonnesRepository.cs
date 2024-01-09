@@ -16,9 +16,12 @@ namespace VideoTheque.Repositories.Personnes
         public Task<List<PersonneDto>> GetPersonnes() => _db.Personnes.ToListAsync();
         
         public ValueTask<PersonneDto?> GetPersonne(int id) => _db.Personnes.FindAsync(id);
-        
-        public Task<PersonneDto?> GetPersonne(string lastname, string firstname) 
-            => _db.Personnes.FirstOrDefaultAsync(p => p.LastName == lastname && p.FirstName == firstname);
+
+        public Task<PersonneDto?> GetPersonne(string lastname, string firstname)
+        {
+            Console.WriteLine("Get personne " + lastname + " " + firstname + "...");
+            return _db.Personnes.FirstOrDefaultAsync(p => p.LastName == lastname && p.FirstName == firstname);
+        }
         
         public Task InsertPersonne(PersonneDto personne)
         {

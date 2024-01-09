@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using VideoTheque.Businesses.AgeRatings;
 using VideoTheque.Businesses.Emprunts;
@@ -28,6 +29,8 @@ builder.Services.Configure<JsonOptions>(options =>
 });
 
 builder.Services.AddSqlite<VideothequeDb>(connectionString);
+
+//builder.Services.AddDbContext<VideothequeDb>(options => options.UseSqlite(connectionString), ServiceLifetime.Singleton); 
 
 builder.Services.AddScoped(typeof(IGenresRepository), typeof(GenresRepository));
 builder.Services.AddScoped(typeof(IGenresBusiness), typeof(GenresBusiness));

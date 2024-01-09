@@ -12,6 +12,6 @@ namespace VideoTheque.Businesses.Films
         
         void UpdateFilm(int id, FilmDto film);
         
-        void DeleteFilm(int id);
+        Task DeleteFilm(int id);
     }
 }

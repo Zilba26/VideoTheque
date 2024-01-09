@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using VideoTheque.Core;
 using VideoTheque.DTOs;
 
 namespace VideoTheque.ViewModels
@@ -21,7 +22,6 @@ namespace VideoTheque.ViewModels
         {
             return new AgeRatingDto()
             {
-                Id = Id,
                 Name = Name,
                 Abreviation = Abreviation
             };
@@ -31,7 +31,7 @@ namespace VideoTheque.ViewModels
         {
             if (ageRatingDto == null)
             {
-                throw new Exception("Age rating not found");
+                throw new NotFoundException("Age rating not found");
             }
             return new AgeRatingViewModel()
             {

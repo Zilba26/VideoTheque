@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using VideoTheque.Core;
 using VideoTheque.DTOs;
 
 namespace VideoTheque.ViewModels
@@ -27,7 +28,6 @@ namespace VideoTheque.ViewModels
         {
             return new PersonneDto
             {
-                Id = Id,
                 BirthDay = Birthday,
                 FirstName = FirstName,
                 LastName = LastName,
@@ -39,7 +39,7 @@ namespace VideoTheque.ViewModels
         {
             if (personneDto == null)
             {
-                throw new Exception("PersonneDto is null");
+                throw new InternalErrorException("PersonneDto is null");
             }
             return new PersonneViewModel
             {

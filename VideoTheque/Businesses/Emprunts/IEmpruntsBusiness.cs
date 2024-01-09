@@ -6,13 +6,13 @@ namespace VideoTheque.Businesses.Emprunts
     public interface IEmpruntsBusiness
     {
         //Empruntes un film à un hôte
-        void EmpruntFilm(int idHost, int idFilm);
+        Task EmpruntFilm(int idHost, int idFilm);
         
         //Passes un film en emprunté et retourne la copie du film
         Task<EmpruntViewModel> EmpruntFilm(int idFilm);
 
         //Supprime un emprunt
-        void DeleteEmprunt(string filmName);
+        Task DeleteEmprunt(string filmName);
         
         //Récupère nos films empruntables
         List<EmpruntableFilmViewModel> GetEmpruntableFilms();
