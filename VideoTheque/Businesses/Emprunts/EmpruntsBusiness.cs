@@ -203,7 +203,7 @@ namespace VideoTheque.Businesses.Emprunts
                 throw new NotFoundException("Host not found");
             }
             Console.WriteLine(host.Url + "/films/empruntables/");
-            HttpResponseMessage response = await _httpClient.GetAsync(host.Url + "/films/empruntables/" + idHost);
+            HttpResponseMessage response = await _httpClient.GetAsync(host.Url + "/films/empruntables");
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
