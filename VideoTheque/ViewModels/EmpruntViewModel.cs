@@ -4,11 +4,11 @@ namespace VideoTheque.ViewModels
 {
     public class EmpruntViewModel
     {
-        [JsonPropertyName("title")]
-        public string Title { get; set; }
+        [JsonPropertyName("titre")]
+        public string Titre { get; set; }
         
-        [JsonPropertyName("duration")]
-        public long Duration { get; set; }
+        [JsonPropertyName("duree")]
+        public long Duree { get; set; }
         
         [JsonPropertyName("ageRating")]
         public AgeRatingViewModel AgeRating { get; set; }
@@ -31,8 +31,8 @@ namespace VideoTheque.ViewModels
         public override string ToString()
         {
             return "EmpruntViewModel{" +
-                   "Title='" + Title + '\'' +
-                   ", Duration=" + Duration +
+                   "Title='" + Titre + '\'' +
+                   ", Duration=" + Duree +
                    ", AgeRating=" + AgeRating?.Name +
                    ", Genre=" + Genre?.Name +
                    ", Director=" + Director?.FullName +

@@ -62,13 +62,13 @@ namespace VideoTheque.Businesses.Emprunts
                 Console.WriteLine("emprunt : " + emprunt);
                 BluRayDto bluRayDto = new BluRayDto
                 {
-                    Duration = emprunt.Duration,
+                    Duration = emprunt.Duree,
                     IdAgeRating = emprunt.AgeRating.Id,
                     IdDirector = emprunt.Director.Id,
                     IdFirstActor = emprunt.FirstActor.Id,
                     IdGenre = emprunt.Genre.Id,
                     IdScenarist = emprunt.Scenarist.Id,
-                    Title = emprunt.Title,
+                    Title = emprunt.Titre,
                     IdOwner = idHost
                 };
                 Console.WriteLine("blu ray dto : " + bluRayDto);
@@ -152,8 +152,8 @@ namespace VideoTheque.Businesses.Emprunts
             GenreDto? genre = _genresDao.GetGenre(bluRayDto.IdGenre).Result;
             EmpruntViewModel empruntViewModel = new EmpruntViewModel
             {
-                Title = bluRayDto.Title,
-                Duration = bluRayDto.Duration,
+                Titre = bluRayDto.Title,
+                Duree = bluRayDto.Duration,
                 Support = Support.BluRay.ToString(),
                 FirstActor = PersonneViewModel.FromDto(firstActor),
                 Director = PersonneViewModel.FromDto(director),

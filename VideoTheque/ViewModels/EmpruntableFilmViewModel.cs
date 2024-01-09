@@ -3,13 +3,13 @@
     public class EmpruntableFilmViewModel
     {
 
-        public EmpruntableFilmViewModel(int id, string title)
+        public EmpruntableFilmViewModel(int id, string titre)
         {
             this.id = id;
-            this.title = title;
+            this.titre = titre;
         }
         
-        public String title { get; set; }
+        public String titre { get; set; }
         
         public int id { get; set; }
         
